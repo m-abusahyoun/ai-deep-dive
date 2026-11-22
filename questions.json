@@ -1,0 +1,1666 @@
+[
+  {
+    "id": "chatbots",
+    "cat": "Chatbots",
+    "q": "Name an AI chatbot or virtual assistant.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "ChatGPT",
+        "pts": 750,
+        "alts": [
+          "chat gpt",
+          "gpt",
+          "شات جي بي تي"
+        ]
+      },
+      {
+        "label": "Siri",
+        "pts": 750,
+        "alts": [
+          "سيري"
+        ]
+      },
+      {
+        "label": "Alexa",
+        "pts": 750,
+        "alts": [
+          "اليكسا"
+        ]
+      },
+      {
+        "label": "Gemini",
+        "pts": 750,
+        "alts": [
+          "google gemini",
+          "جيميني"
+        ]
+      },
+      {
+        "label": "Claude",
+        "pts": 850,
+        "alts": [
+          "كلود"
+        ]
+      },
+      {
+        "label": "Copilot",
+        "pts": 850,
+        "alts": [
+          "microsoft copilot"
+        ]
+      },
+      {
+        "label": "DeepSeek",
+        "pts": 850,
+        "alts": [
+          "deep seek"
+        ]
+      },
+      {
+        "label": "Grok",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Meta AI",
+        "pts": 850,
+        "alts": [
+          "meta chatbot"
+        ]
+      },
+      {
+        "label": "Bixby",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Le Chat",
+        "pts": 1000,
+        "alts": [
+          "mistral le chat"
+        ]
+      },
+      {
+        "label": "Perplexity",
+        "pts": 1000,
+        "alts": [
+          "perplexity ai"
+        ]
+      },
+      {
+        "label": "Pi",
+        "pts": 1000,
+        "alts": [
+          "inflection pi"
+        ]
+      },
+      {
+        "label": "Poe",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Replika",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Character AI",
+        "pts": 1000,
+        "alts": [
+          "character.ai"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "companies",
+    "cat": "AI companies",
+    "q": "Name a company that develops AI.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "OpenAI",
+        "pts": 750,
+        "alts": [
+          "open ai"
+        ]
+      },
+      {
+        "label": "Google",
+        "pts": 750,
+        "alts": [
+          "alphabet",
+          "deepmind",
+          "google deepmind"
+        ]
+      },
+      {
+        "label": "Microsoft",
+        "pts": 750,
+        "alts": [
+          "microsoft research"
+        ]
+      },
+      {
+        "label": "Meta",
+        "pts": 750,
+        "alts": [
+          "facebook",
+          "meta ai"
+        ]
+      },
+      {
+        "label": "Apple",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Amazon",
+        "pts": 850,
+        "alts": [
+          "aws"
+        ]
+      },
+      {
+        "label": "Nvidia",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Tesla",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Samsung",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Anthropic",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "IBM",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Mistral AI",
+        "pts": 1000,
+        "alts": [
+          "mistral"
+        ]
+      },
+      {
+        "label": "Cohere",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Hugging Face",
+        "pts": 1000,
+        "alts": [
+          "huggingface"
+        ]
+      },
+      {
+        "label": "DeepSeek",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Baidu",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Alibaba",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Stability AI",
+        "pts": 1000,
+        "alts": [
+          "stability"
+        ]
+      },
+      {
+        "label": "Runway",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Replit",
+        "pts": 850,
+        "alts": [
+          "repl it",
+          "repl.it",
+          "replit ai"
+        ]
+      },
+      {
+        "label": "xAI",
+        "pts": 850,
+        "alts": [
+          "x",
+          "x ai",
+          "x.ai"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "characters",
+    "cat": "Movies, series and games",
+    "q": "Name an AI or robot character from a movie, series or game.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "WALL-E",
+        "pts": 750,
+        "alts": [
+          "wall e",
+          "walle"
+        ]
+      },
+      {
+        "label": "Terminator",
+        "pts": 750,
+        "alts": [
+          "the terminator",
+          "t-800",
+          "t800"
+        ]
+      },
+      {
+        "label": "R2-D2",
+        "pts": 750,
+        "alts": [
+          "r2d2",
+          "r2"
+        ]
+      },
+      {
+        "label": "Baymax",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Optimus Prime",
+        "pts": 750,
+        "alts": [
+          "optimus"
+        ]
+      },
+      {
+        "label": "Bumblebee",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "C-3PO",
+        "pts": 850,
+        "alts": [
+          "c3po"
+        ]
+      },
+      {
+        "label": "Ultron",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Vision",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Iron Giant",
+        "pts": 850,
+        "alts": [
+          "the iron giant"
+        ]
+      },
+      {
+        "label": "JARVIS",
+        "pts": 850,
+        "alts": [
+          "j.a.r.v.i.s."
+        ]
+      },
+      {
+        "label": "Sonic robot Metal Sonic",
+        "pts": 850,
+        "alts": [
+          "metal sonic"
+        ]
+      },
+      {
+        "label": "Connor",
+        "pts": 1000,
+        "alts": [
+          "rk800",
+          "detroit connor"
+        ]
+      },
+      {
+        "label": "Ava",
+        "pts": 1000,
+        "alts": [
+          "ava from ex machina"
+        ]
+      },
+      {
+        "label": "GLaDOS",
+        "pts": 1000,
+        "alts": [
+          "glados"
+        ]
+      },
+      {
+        "label": "HAL 9000",
+        "pts": 1000,
+        "alts": [
+          "hal"
+        ]
+      },
+      {
+        "label": "EVE",
+        "pts": 1000,
+        "alts": [
+          "eve from wall e"
+        ]
+      },
+      {
+        "label": "Chappie",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "TARS",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "BT-7274",
+        "pts": 1000,
+        "alts": [
+          "bt7274",
+          "bt from titanfall"
+        ]
+      },
+      {
+        "label": "Data",
+        "pts": 1000,
+        "alts": [
+          "commander data"
+        ]
+      },
+      {
+        "label": "Marvin",
+        "pts": 1000,
+        "alts": [
+          "marvin the paranoid android"
+        ]
+      },
+      {
+        "label": "Wheatley",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "AM",
+        "pts": 1000,
+        "alts": [
+          "allied mastercomputer"
+        ]
+      },
+      {
+        "label": "Cortana",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "EDI",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "HK-47",
+        "pts": 1000,
+        "alts": [
+          "hk47"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "image_tools",
+    "cat": "Creative AI",
+    "q": "Name an AI tool used to generate or edit images.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "ChatGPT",
+        "pts": 750,
+        "alts": [
+          "chat gpt"
+        ]
+      },
+      {
+        "label": "Gemini",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Photoshop",
+        "pts": 750,
+        "alts": [
+          "adobe photoshop"
+        ]
+      },
+      {
+        "label": "Canva",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "DALL-E",
+        "pts": 850,
+        "alts": [
+          "dalle",
+          "dall e"
+        ]
+      },
+      {
+        "label": "Midjourney",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Stable Diffusion",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Adobe Firefly",
+        "pts": 850,
+        "alts": [
+          "firefly"
+        ]
+      },
+      {
+        "label": "Microsoft Designer",
+        "pts": 850,
+        "alts": [
+          "bing image creator",
+          "designer"
+        ]
+      },
+      {
+        "label": "Leonardo AI",
+        "pts": 1000,
+        "alts": [
+          "leonardo"
+        ]
+      },
+      {
+        "label": "Ideogram",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "FLUX",
+        "pts": 1000,
+        "alts": [
+          "flux ai"
+        ]
+      },
+      {
+        "label": "Runway",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Adobe Lightroom",
+        "pts": 1000,
+        "alts": [
+          "lightroom"
+        ]
+      },
+      {
+        "label": "Luminar Neo",
+        "pts": 1000,
+        "alts": [
+          "luminar"
+        ]
+      },
+      {
+        "label": "Recraft",
+        "pts": 1000,
+        "alts": []
+      }
+    ]
+  },
+  {
+    "id": "devices",
+    "cat": "Everyday technology",
+    "q": "Name a device that can use AI.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "Smartphone",
+        "pts": 750,
+        "alts": [
+          "phone",
+          "mobile phone",
+          "iphone"
+        ]
+      },
+      {
+        "label": "Computer",
+        "pts": 750,
+        "alts": [
+          "pc",
+          "laptop"
+        ]
+      },
+      {
+        "label": "Robot",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Smart speaker",
+        "pts": 750,
+        "alts": [
+          "amazon echo",
+          "google nest"
+        ]
+      },
+      {
+        "label": "Smartwatch",
+        "pts": 850,
+        "alts": [
+          "smart watch"
+        ]
+      },
+      {
+        "label": "Car",
+        "pts": 850,
+        "alts": [
+          "self driving car",
+          "autonomous car"
+        ]
+      },
+      {
+        "label": "Drone",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Security camera",
+        "pts": 850,
+        "alts": [
+          "smart camera"
+        ]
+      },
+      {
+        "label": "Smart TV",
+        "pts": 850,
+        "alts": [
+          "television"
+        ]
+      },
+      {
+        "label": "Robot vacuum",
+        "pts": 1000,
+        "alts": [
+          "robotic vacuum",
+          "roomba"
+        ]
+      },
+      {
+        "label": "Hearing aid",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Smart glasses",
+        "pts": 1000,
+        "alts": [
+          "ar glasses"
+        ]
+      },
+      {
+        "label": "Smart thermostat",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Smart refrigerator",
+        "pts": 1000,
+        "alts": [
+          "smart fridge"
+        ]
+      },
+      {
+        "label": "Medical scanner",
+        "pts": 1000,
+        "alts": [
+          "mri scanner"
+        ]
+      },
+      {
+        "label": "Industrial robot",
+        "pts": 1000,
+        "alts": [
+          "robot arm"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "games",
+    "cat": "Gaming",
+    "q": "Name a video game where you can play against computer-controlled opponents.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "FIFA",
+        "pts": 750,
+        "alts": [
+          "ea fc",
+          "ea sports fc",
+          "fc 24",
+          "fc 25",
+          "fc 26"
+        ]
+      },
+      {
+        "label": "Minecraft",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Fortnite",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "Call of Duty",
+        "pts": 750,
+        "alts": [
+          "cod"
+        ]
+      },
+      {
+        "label": "PUBG",
+        "pts": 750,
+        "alts": [
+          "pubg mobile"
+        ]
+      },
+      {
+        "label": "Chess",
+        "pts": 750,
+        "alts": [
+          "computer chess"
+        ]
+      },
+      {
+        "label": "Rocket League",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Counter-Strike",
+        "pts": 850,
+        "alts": [
+          "counter strike",
+          "csgo",
+          "cs2"
+        ]
+      },
+      {
+        "label": "Valorant",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Overwatch",
+        "pts": 850,
+        "alts": [
+          "overwatch 2"
+        ]
+      },
+      {
+        "label": "GTA",
+        "pts": 850,
+        "alts": [
+          "gta v",
+          "grand theft auto"
+        ]
+      },
+      {
+        "label": "Mario Kart",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Tekken",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Mortal Kombat",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Civilization",
+        "pts": 1000,
+        "alts": [
+          "sid meiers civilization",
+          "civ"
+        ]
+      },
+      {
+        "label": "Age of Empires",
+        "pts": 1000,
+        "alts": [
+          "aoe"
+        ]
+      },
+      {
+        "label": "StarCraft",
+        "pts": 1000,
+        "alts": [
+          "starcraft 2"
+        ]
+      },
+      {
+        "label": "Alien Isolation",
+        "pts": 1000,
+        "alts": [
+          "alien: isolation"
+        ]
+      },
+      {
+        "label": "F.E.A.R.",
+        "pts": 1000,
+        "alts": [
+          "fear"
+        ]
+      },
+      {
+        "label": "XCOM",
+        "pts": 1000,
+        "alts": [
+          "xcom 2"
+        ]
+      },
+      {
+        "label": "Total War",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Halo",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Dota 2",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "League of Legends",
+        "pts": 1000,
+        "alts": [
+          "lol"
+        ]
+      },
+      {
+        "label": "Elden Ring",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Dark Souls",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Hades",
+        "pts": 1000,
+        "alts": []
+      }
+    ]
+  },
+  {
+    "id": "robots",
+    "cat": "Robots at work",
+    "q": "Name a task a robot can perform.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "Cleaning",
+        "pts": 750,
+        "alts": [
+          "clean",
+          "vacuuming",
+          "vacuum"
+        ]
+      },
+      {
+        "label": "Cooking",
+        "pts": 750,
+        "alts": [
+          "cook"
+        ]
+      },
+      {
+        "label": "Driving",
+        "pts": 750,
+        "alts": [
+          "drive"
+        ]
+      },
+      {
+        "label": "Delivering packages",
+        "pts": 750,
+        "alts": [
+          "delivery",
+          "deliver"
+        ]
+      },
+      {
+        "label": "Walking",
+        "pts": 750,
+        "alts": [
+          "walk"
+        ]
+      },
+      {
+        "label": "Dancing",
+        "pts": 750,
+        "alts": [
+          "dance"
+        ]
+      },
+      {
+        "label": "Welding",
+        "pts": 850,
+        "alts": [
+          "weld"
+        ]
+      },
+      {
+        "label": "Painting",
+        "pts": 850,
+        "alts": [
+          "paint"
+        ]
+      },
+      {
+        "label": "Assembly",
+        "pts": 850,
+        "alts": [
+          "assembling products",
+          "manufacturing"
+        ]
+      },
+      {
+        "label": "Picking and packing",
+        "pts": 850,
+        "alts": [
+          "packing",
+          "sorting packages"
+        ]
+      },
+      {
+        "label": "Surgery",
+        "pts": 850,
+        "alts": [
+          "surgical assistance",
+          "assisting surgery"
+        ]
+      },
+      {
+        "label": "Agriculture",
+        "pts": 850,
+        "alts": [
+          "farming",
+          "harvesting"
+        ]
+      },
+      {
+        "label": "Bomb disposal",
+        "pts": 1000,
+        "alts": [
+          "defusing bombs"
+        ]
+      },
+      {
+        "label": "Search and rescue",
+        "pts": 1000,
+        "alts": [
+          "rescuing people"
+        ]
+      },
+      {
+        "label": "Space exploration",
+        "pts": 1000,
+        "alts": [
+          "exploring mars"
+        ]
+      },
+      {
+        "label": "Underwater inspection",
+        "pts": 1000,
+        "alts": [
+          "underwater exploration"
+        ]
+      },
+      {
+        "label": "Pipeline inspection",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Prosthetic assistance",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Microsurgery",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Inspecting power lines",
+        "pts": 1000,
+        "alts": []
+      }
+    ]
+  },
+  {
+    "id": "ethics",
+    "cat": "Responsible AI",
+    "q": "Name a concern or risk associated with AI.",
+    "technical": false,
+    "answers": [
+      {
+        "label": "Privacy",
+        "pts": 750,
+        "alts": [
+          "data privacy"
+        ]
+      },
+      {
+        "label": "Job loss",
+        "pts": 750,
+        "alts": [
+          "unemployment",
+          "job displacement",
+          "replacing jobs"
+        ]
+      },
+      {
+        "label": "Wrong answers",
+        "pts": 750,
+        "alts": [
+          "incorrect answers",
+          "misinformation",
+          "hallucinations",
+          "hallucination"
+        ]
+      },
+      {
+        "label": "Cheating",
+        "pts": 750,
+        "alts": [
+          "academic cheating"
+        ]
+      },
+      {
+        "label": "Bias",
+        "pts": 850,
+        "alts": [
+          "discrimination",
+          "algorithmic bias"
+        ]
+      },
+      {
+        "label": "Deepfakes",
+        "pts": 850,
+        "alts": [
+          "deepfake",
+          "fake videos"
+        ]
+      },
+      {
+        "label": "Copyright",
+        "pts": 850,
+        "alts": [
+          "plagiarism"
+        ]
+      },
+      {
+        "label": "Scams",
+        "pts": 850,
+        "alts": [
+          "fraud"
+        ]
+      },
+      {
+        "label": "Overreliance",
+        "pts": 850,
+        "alts": [
+          "dependency on ai"
+        ]
+      },
+      {
+        "label": "Security",
+        "pts": 850,
+        "alts": [
+          "cybersecurity"
+        ]
+      },
+      {
+        "label": "Explainability",
+        "pts": 1000,
+        "alts": [
+          "black box",
+          "lack of explainability"
+        ]
+      },
+      {
+        "label": "Transparency",
+        "pts": 1000,
+        "alts": [
+          "lack of transparency"
+        ]
+      },
+      {
+        "label": "Data poisoning",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Accountability",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Surveillance",
+        "pts": 1000,
+        "alts": [
+          "mass surveillance"
+        ]
+      },
+      {
+        "label": "Environmental impact",
+        "pts": 1000,
+        "alts": [
+          "energy consumption"
+        ]
+      },
+      {
+        "label": "Consent",
+        "pts": 1000,
+        "alts": [
+          "lack of consent"
+        ]
+      },
+      {
+        "label": "Adversarial attacks",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Weaponisation",
+        "pts": 1000,
+        "alts": [
+          "autonomous weapons"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "plots",
+    "cat": "Python visualisation",
+    "q": "Name a type of plot you can create using Python.",
+    "technical": true,
+    "answers": [
+      {
+        "label": "Bar chart",
+        "pts": 750,
+        "alts": [
+          "bar plot",
+          "bar graph"
+        ]
+      },
+      {
+        "label": "Line chart",
+        "pts": 750,
+        "alts": [
+          "line plot",
+          "line graph"
+        ]
+      },
+      {
+        "label": "Pie chart",
+        "pts": 750,
+        "alts": [
+          "pie plot"
+        ]
+      },
+      {
+        "label": "Scatter plot",
+        "pts": 750,
+        "alts": [
+          "scatterplot",
+          "scatter chart"
+        ]
+      },
+      {
+        "label": "Histogram",
+        "pts": 750,
+        "alts": [
+          "hist"
+        ]
+      },
+      {
+        "label": "Box plot",
+        "pts": 850,
+        "alts": [
+          "boxplot",
+          "box and whisker plot"
+        ]
+      },
+      {
+        "label": "Heatmap",
+        "pts": 850,
+        "alts": [
+          "heat map"
+        ]
+      },
+      {
+        "label": "Area chart",
+        "pts": 850,
+        "alts": [
+          "area plot"
+        ]
+      },
+      {
+        "label": "Bubble chart",
+        "pts": 850,
+        "alts": [
+          "bubble plot"
+        ]
+      },
+      {
+        "label": "Stacked bar chart",
+        "pts": 850,
+        "alts": [
+          "stacked bar plot"
+        ]
+      },
+      {
+        "label": "Donut chart",
+        "pts": 850,
+        "alts": [
+          "doughnut chart"
+        ]
+      },
+      {
+        "label": "Violin plot",
+        "pts": 1000,
+        "alts": [
+          "violin"
+        ]
+      },
+      {
+        "label": "Density plot",
+        "pts": 1000,
+        "alts": [
+          "density",
+          "kde",
+          "kde plot",
+          "kernel density plot",
+          "kernel density estimate"
+        ]
+      },
+      {
+        "label": "Contour plot",
+        "pts": 1000,
+        "alts": [
+          "contour"
+        ]
+      },
+      {
+        "label": "Hexbin plot",
+        "pts": 1000,
+        "alts": [
+          "hexbin"
+        ]
+      },
+      {
+        "label": "Raincloud plot",
+        "pts": 1000,
+        "alts": [
+          "raincloud"
+        ]
+      },
+      {
+        "label": "Pair plot",
+        "pts": 1000,
+        "alts": [
+          "pairplot"
+        ]
+      },
+      {
+        "label": "Swarm plot",
+        "pts": 1000,
+        "alts": [
+          "swarmplot"
+        ]
+      },
+      {
+        "label": "Radar chart",
+        "pts": 1000,
+        "alts": [
+          "radar plot",
+          "spider chart"
+        ]
+      },
+      {
+        "label": "Treemap",
+        "pts": 1000,
+        "alts": [
+          "tree map"
+        ]
+      },
+      {
+        "label": "Sankey diagram",
+        "pts": 1000,
+        "alts": [
+          "sankey"
+        ]
+      },
+      {
+        "label": "3D surface plot",
+        "pts": 1000,
+        "alts": [
+          "surface plot"
+        ]
+      },
+      {
+        "label": "ECDF",
+        "pts": 1000,
+        "alts": [
+          "ecdf plot",
+          "empirical cumulative distribution plot"
+        ]
+      },
+      {
+        "label": "Ridgeline plot",
+        "pts": 1000,
+        "alts": [
+          "joyplot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "languages",
+    "cat": "Programming",
+    "q": "Name a programming language used to develop AI.",
+    "technical": true,
+    "answers": [
+      {
+        "label": "Python",
+        "pts": 750,
+        "alts": [
+          "py"
+        ]
+      },
+      {
+        "label": "Java",
+        "pts": 750,
+        "alts": []
+      },
+      {
+        "label": "JavaScript",
+        "pts": 750,
+        "alts": [
+          "js"
+        ]
+      },
+      {
+        "label": "C++",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "C#",
+        "pts": 850,
+        "alts": [
+          "c sharp",
+          "csharp"
+        ]
+      },
+      {
+        "label": "R",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "C",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "TypeScript",
+        "pts": 850,
+        "alts": [
+          "ts"
+        ]
+      },
+      {
+        "label": "MATLAB",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Swift",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Rust",
+        "pts": 850,
+        "alts": []
+      },
+      {
+        "label": "Julia",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Lisp",
+        "pts": 1000,
+        "alts": [
+          "common lisp"
+        ]
+      },
+      {
+        "label": "Prolog",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Haskell",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Scala",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Go",
+        "pts": 1000,
+        "alts": [
+          "golang"
+        ]
+      },
+      {
+        "label": "Lua",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Wolfram Language",
+        "pts": 1000,
+        "alts": [
+          "mathematica"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "data",
+    "cat": "Data",
+    "q": "Name a form of data AI can work with.",
+    "technical": true,
+    "answers": [
+      {
+        "label": "Text",
+        "pts": 750,
+        "alts": [
+          "words",
+          "documents"
+        ]
+      },
+      {
+        "label": "Images",
+        "pts": 750,
+        "alts": [
+          "image",
+          "pictures",
+          "photos"
+        ]
+      },
+      {
+        "label": "Audio",
+        "pts": 750,
+        "alts": [
+          "sound",
+          "speech"
+        ]
+      },
+      {
+        "label": "Video",
+        "pts": 750,
+        "alts": [
+          "videos"
+        ]
+      },
+      {
+        "label": "Numbers",
+        "pts": 750,
+        "alts": [
+          "numerical data",
+          "numeric data",
+          "numerical",
+          "numeric"
+        ]
+      },
+      {
+        "label": "Time series",
+        "pts": 850,
+        "alts": [
+          "timeseries"
+        ]
+      },
+      {
+        "label": "Location data",
+        "pts": 850,
+        "alts": [
+          "gps",
+          "coordinates",
+          "geospatial data"
+        ]
+      },
+      {
+        "label": "Sensor readings",
+        "pts": 850,
+        "alts": [
+          "sensor data",
+          "temperature readings"
+        ]
+      },
+      {
+        "label": "Tabular data",
+        "pts": 850,
+        "alts": [
+          "tables",
+          "spreadsheets"
+        ]
+      },
+      {
+        "label": "Categorical data",
+        "pts": 850,
+        "alts": [
+          "categories"
+        ]
+      },
+      {
+        "label": "Graphs",
+        "pts": 1000,
+        "alts": [
+          "graph data",
+          "network data"
+        ]
+      },
+      {
+        "label": "Point clouds",
+        "pts": 1000,
+        "alts": [
+          "point cloud",
+          "lidar"
+        ]
+      },
+      {
+        "label": "Brain signals",
+        "pts": 1000,
+        "alts": [
+          "eeg"
+        ]
+      },
+      {
+        "label": "Genomic data",
+        "pts": 1000,
+        "alts": [
+          "dna",
+          "genetic sequences"
+        ]
+      },
+      {
+        "label": "Satellite radar data",
+        "pts": 1000,
+        "alts": [
+          "sar"
+        ]
+      },
+      {
+        "label": "3D meshes",
+        "pts": 1000,
+        "alts": [
+          "mesh data"
+        ]
+      },
+      {
+        "label": "Hyperspectral images",
+        "pts": 1000,
+        "alts": []
+      }
+    ]
+  },
+  {
+    "id": "learning",
+    "cat": "Machine learning",
+    "q": "Name a type of machine learning.",
+    "technical": true,
+    "answers": [
+      {
+        "label": "Supervised learning",
+        "pts": 750,
+        "alts": [
+          "supervised"
+        ]
+      },
+      {
+        "label": "Unsupervised learning",
+        "pts": 750,
+        "alts": [
+          "unsupervised"
+        ]
+      },
+      {
+        "label": "Reinforcement learning",
+        "pts": 850,
+        "alts": [
+          "reinforcement",
+          "rl"
+        ]
+      },
+      {
+        "label": "Semi-supervised learning",
+        "pts": 850,
+        "alts": [
+          "semi supervised",
+          "semisupervised learning"
+        ]
+      },
+      {
+        "label": "Self-supervised learning",
+        "pts": 1000,
+        "alts": [
+          "self supervised"
+        ]
+      },
+      {
+        "label": "Active learning",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Online learning",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Federated learning",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Transfer learning",
+        "pts": 1000,
+        "alts": []
+      },
+      {
+        "label": "Multi-task learning",
+        "pts": 1000,
+        "alts": [
+          "multitask learning"
+        ]
+      },
+      {
+        "label": "Few-shot learning",
+        "pts": 1000,
+        "alts": [
+          "few shot learning"
+        ]
+      },
+      {
+        "label": "Zero-shot learning",
+        "pts": 1000,
+        "alts": [
+          "zero shot learning"
+        ]
+      }
+    ]
+  }
+]

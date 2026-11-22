@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Deep Dive - GDG Booth</title>
+<style>
+  :root {
+    --text: #f4f6ff; --muted: #b6c4e6; --panel: rgba(10, 22, 46, .78); --panel2: #1d2c55;
+    --yellow: #FBBC05; --green: #34A853; --red: #EA4335; --blue: #4285F4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--text);
+    background: linear-gradient(rgb(40, 170, 210), rgb(12, 60, 120));
+    display: flex; flex-direction: column; align-items: center; padding: 24px; overflow-x: hidden;
+  }
+  .hidden { display: none !important; }
+  .bubble {
+    position: fixed; bottom: -30px; width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255, 255, 255, .35); animation: rise 9s linear infinite; pointer-events: none;
+  }
+  @keyframes rise { from { transform: translateY(0); opacity: .6; } to { transform: translateY(-110vh); opacity: 0; } }
+
+  header { width: 100%; max-width: 1000px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; position: relative; z-index: 1; }
+  h1 { margin: 0; font-size: 1.5rem; }
+  .stats { display: flex; gap: 24px; font-size: 1.15rem; font-weight: 700; align-items: center; flex-wrap: wrap; }
+  .stats .pts { color: var(--yellow); }
+  .status { font-size: .85rem; font-weight: 400; color: var(--muted); }
+
+  .depthbar { width: 100%; max-width: 1000px; margin-top: 16px; position: relative; z-index: 1; }
+  .depth-label { display: flex; justify-content: space-between; color: var(--muted); font-size: .9rem; margin-bottom: 6px; }
+  .track { height: 14px; background: rgba(0, 0, 0, .3); border-radius: 999px; overflow: hidden; }
+  .fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--yellow)); transition: width .6s ease; border-radius: 999px; }
+
+  .card {
+    width: 100%; max-width: 1000px; margin-top: 20px; background: var(--panel); border-radius: 18px; padding: 28px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .4); position: relative; z-index: 1;
+  }
+  .screen { text-align: center; margin-top: 40px; max-width: 760px; }
+  .screen h2 { font-size: clamp(2rem, 5vw, 3rem); margin: 12px 0; }
+  .screen p { font-size: 1.15rem; color: var(--muted); line-height: 1.5; max-width: 620px; margin: 0 auto 22px; }
+  .big { font-size: clamp(2.8rem, 8vw, 5rem); font-weight: 800; color: var(--yellow); margin: 10px 0; }
+  .tiers { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 16px 0 24px; }
+  .tiers span { background: var(--panel2); border-radius: 999px; padding: 8px 14px; font-size: .95rem; }
+  .tiers b { color: var(--yellow); }
+
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); flex-wrap: wrap; }
+  .timerbar { flex: 1; max-width: 320px; height: 10px; background: rgba(255, 255, 255, .12); border-radius: 999px; overflow: hidden; }
+  .timerfill { height: 100%; width: 100%; background: var(--green); transition: width 1s linear, background .3s; }
+  .timerfill.low { background: var(--red); }
+  .timertext { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); min-width: 3ch; text-align: right; }
+  .cat { color: var(--yellow); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: .9rem; margin-top: 14px; }
+  .prompt { font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.3; margin: 8px 0 22px; }
+
+  .guess-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .guess-row input {
+    flex: 1; min-width: 240px; font-size: 1.2rem; padding: 14px 16px; border-radius: 10px;
+    border: 2px solid var(--blue); background: #0a1430; color: var(--text); outline: none;
+  }
+  .guess-row input:disabled { opacity: .5; }
+  button { border: 0; border-radius: 10px; padding: 14px 22px; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  .primary { background: var(--yellow); color: #111; }
+
+  .feedback { min-height: 1.6em; margin: 18px 0; font-size: 1.1rem; color: var(--muted); }
+  .feedback.good { color: #7ee89a; font-weight: 700; }
+  .feedback.bad { color: #ff8a80; font-weight: 700; }
+  .feedback.info { color: var(--yellow); }
+
+  .name-box { margin: 0 auto 24px; max-width: 620px; }
+  .name-box label { display: block; font-size: 1.15rem; color: var(--muted); margin-bottom: 10px; }
+  .name-box .guess-row { justify-content: center; }
+  .name-box .guess-row input { min-width: 200px; }
+  .save-box { margin: 18px auto 24px; max-width: 620px; }
+  .save-box .guess-row { justify-content: center; }
+
+  .reveal-title { color: var(--muted); margin: 6px 0 10px; }
+  .slots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 640px) { .slots { grid-template-columns: 1fr; } }
+  .slot {
+    display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 14px 16px;
+    border-radius: 12px; background: var(--panel2); border: 2px solid transparent; font-size: 1.1rem;
+  }
+  .slot .tier { color: var(--yellow); font-weight: 700; white-space: nowrap; }
+  .slot.found { background: var(--green); }
+  .slot.found .tier { color: #fff; }
+  .slot.missed { border-color: var(--red); color: var(--muted); }
+  .slot.missed .tier { color: #ff8a80; }
+  .next { margin-top: 22px; }
+
+  .play { display: flex; gap: 22px; align-items: stretch; }
+  .main { flex: 1; min-width: 0; }
+  .shaft {
+    flex: 0 0 90px; position: relative; min-height: 380px; border-radius: 45px; overflow: hidden;
+    background: linear-gradient(rgb(90, 200, 230), rgb(20, 90, 150) 45%, rgb(3, 8, 22));
+    border: 2px solid rgba(255, 255, 255, .15);
+  }
+  .diver {
+    position: absolute; left: 50%; width: 40px; height: 40px; margin-left: -20px;
+    top: calc(var(--p, 0) * (100% - 48px));
+    transition: top 1.6s cubic-bezier(.45, .05, .3, 1);
+    animation: sway 2.4s ease-in-out infinite;
+  }
+  .diver::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: var(--yellow); box-shadow: 0 0 0 5px rgba(251, 188, 5, .25);
+  }
+  .diver::after {
+    content: ""; position: absolute; left: 10px; top: 11px; width: 20px; height: 11px; border-radius: 6px; background: #0b1a33;
+  }
+  @keyframes sway { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+  .dbub {
+    position: absolute; left: 50%; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%;
+    background: rgba(255, 255, 255, .65); animation: bubbleUp 1.8s ease-out forwards; pointer-events: none;
+  }
+  @keyframes bubbleUp { from { transform: translate(0, 0); opacity: .9; } to { transform: translate(var(--dx, 0px), -120px); opacity: 0; } }
+  @media (max-width: 640px) { .play { gap: 12px; } .shaft { flex-basis: 56px; } }
+@media (max-width:640px) { body {padding:12px;} .card {padding:18px;} .guess-row input {min-width:0;flex-basis:100%;width:100%;} .stats {gap:10px;} #reviewPanel button {margin:4px 0;} }
+dialog {background:#1d2c55;color:#f4f6ff;border:1px solid #4285F4;border-radius:12px;padding:24px;max-width:360px;} dialog::backdrop {background:rgba(0,0,0,.65);} #hostPinInput {display:block;width:100%;padding:12px;margin:12px 0;font-size:1.2rem;}
+</style>
+</head>
+<body>
+
+<div class="bubble" style="left: 8%; animation-delay: 0s;"></div>
+<div class="bubble" style="left: 25%; animation-delay: 3s; width: 14px; height: 14px;"></div>
+<div class="bubble" style="left: 47%; animation-delay: 6s;"></div>
+<div class="bubble" style="left: 68%; animation-delay: 1.5s; width: 7px; height: 7px;"></div>
+<div class="bubble" style="left: 88%; animation-delay: 4.5s; width: 12px; height: 12px;"></div>
+
+<header>
+  <h1>AI Deep Dive <span style="color: var(--muted); font-weight: 400; font-size: 1rem;">· GDG</span></h1>
+  <div class="stats">
+    <span>Depth <span id="depth">0</span> m</span>
+    <span class="status" id="status">Starting…</span>
+  </div>
+</header>
+
+<div class="depthbar">
+  <div class="depth-label"><span>Surface</span><span id="maxDepth"></span></div>
+  <div class="track"><div class="fill" id="depthFill"></div></div>
+</div>
+
+<!-- Start screen -->
+<section id="startScreen" class="card screen">
+  <h2>Dive into <span style="color: var(--yellow);">AI</span></h2>
+  <p>7 prompts: 5 everyday AI questions and 2 data or programming questions. One accepted answer per prompt, with 25 seconds to answer. Incorrect answers earn 0. Valid common answers earn 750 m, less common answers 850 m, and rare answers 1,000 m. Rarity is estimated for a university audience. Unlisted answers go to the AI judge without losing time. Valid answers score automatically, incorrect answers earn 0, and uncertain cases go to host review.</p>
+  <div class="tiers">
+
+    <span><b>Common</b> 750 pts · 750 m</span>
+    <span><b>Less common</b> 850 pts · 850 m</span>
+    <span><b>Rare</b> 1,000 pts · 1,000 m</span>
+  </div>
+  <div class="name-box">
+    <label for="nameInput">Enter your name:</label>
+    <div class="guess-row">
+      <input id="nameInput" type="text" maxlength="48" placeholder="Your name (2 to 48 characters)" autocomplete="off">
+      <button class="primary" id="startBtn">Start diving</button>
+    </div>
+    <div class="feedback" id="startFeedback"></div>
+  </div>
+<details style="text-align:left"><summary>How answers are checked</summary>
+<p style="font-size:1rem">Exact listed answers and aliases score instantly. Typos and unlisted answers are checked by the AI for category validity and then rarity. Valid answers score automatically; uncertain cases can be reviewed by the host. Wrong answers earn zero; rarity points apply only after an answer passes category validation. Other answers go to the local AI judge when you launch with START_GAME.bat or start_ai_game.py with Ollama running. The timer pauses while the local judge checks. English and Arabic answers are welcome. After the one-time model download, judging works offline. Leaderboard submission needs internet. If the judge is uncertain or unavailable, the host can award points. Review controls require the host PIN printed in the terminal each time the server starts. Players cannot award themselves points by clicking them.</p>
+<p style="font-size:1rem">Five everyday questions and two technical questions are selected each round. Scoring rewards estimated answer rarity among university students. A technical answer is not automatically rare. Scores are fixed during the event, so playing later gives no advantage. An answer does not have to appear in our examples to be valid.</p></details>
+</section>
+
+<!-- Game screen -->
+<section id="gameScreen" class="card hidden play">
+    <div class="shaft" id="shaft"><div class="diver" id="diver"></div></div>
+    <div class="main">
+  <div class="meta">
+    <span id="promptNum">Prompt 1 of 7</span>
+    <div class="timerbar"><div class="timerfill" id="timerFill"></div></div>
+    <span class="timertext" id="timerText">25s</span>
+  </div>
+  <div class="cat" id="catName"></div>
+  <div class="prompt" id="promptText"></div>
+  <div class="guess-row">
+    <input id="guessInput" aria-labelledby="promptText" maxlength="240" type="text" placeholder="Type one answer and press Enter" autocomplete="off">
+    <button class="primary" id="submitBtn">Submit</button>
+  </div>
+  <div class="feedback" id="feedback"></div>
+  <button id="reviewBtn" class="primary hidden">Ask host to review this answer</button>
+  <section id="reviewPanel" class="hidden" style="margin-top:18px;padding:16px;background:#1d2c55;border-radius:12px">
+    <h3>Host review — no points awarded yet</h3>
+    <p>Scoring requires the host PIN shown in the terminal. Use 0 for an incorrect answer.</p>
+    <p>Question: <span id="reviewQuestion"></span></p>
+    <p>Answer: <strong id="reviewAnswer"></strong></p>
+    <p>Accept any specific, valid answer, including one missing from the examples. Use 750 for common answers, 850 for less common answers and 1,000 for rare answers. Estimate how often students would give the answer to this question, not its technical difficulty. These are estimates, not measured response frequencies. Select one answer if several were submitted.</p>
+    <div id="reviewExamples" style="margin-bottom:12px"></div>
+    <button data-award="0">Mark incorrect · 0 m</button>
+    <button data-award="750">Award 750 m</button>
+    <button data-award="850">Award 850 m</button>
+    <button data-award="1000">Award 1,000 m</button>
+    <button id="rejectBtn">Return to question</button>
+  </section>
+  <div class="next"><button class="primary hidden" id="nextBtn">Next prompt →</button></div>
+    </div>
+</section>
+
+<!-- End screen -->
+<section id="endScreen" class="card screen hidden">
+  <h2>Dive complete</h2>
+  <div class="big" id="endDepth">0 m</div>
+  <p id="endPts"></p>
+  <p id="endMsg"></p>
+  <div class="save-box">
+    <p id="endName"></p><p id="reviewNotice" style="font-size:1rem"></p>
+    <div class="guess-row">
+      <button class="primary" id="saveBtn">Submit score to leaderboard</button>
+    </div>
+    <div class="feedback" id="saveFeedback"></div>
+  </div>
+</section>
+
+
+<dialog id="hostPinDialog">
+ <form method="dialog">
+  <label for="hostPinInput">Host PIN from the game terminal</label>
+  <input id="hostPinInput" type="password" inputmode="numeric" autocomplete="off" required maxlength="6">
+  <button value="confirm" class="primary">Confirm</button>
+  <button value="cancel" formnovalidate>Cancel</button>
+ </form>
+</dialog>
+<script>
+"use strict";
+const QUESTIONS = [{"id": "chatbots", "cat": "Chatbots", "q": "Name an AI chatbot or virtual assistant.", "technical": false, "answers": [{"label": "ChatGPT", "pts": 750, "alts": ["chat gpt", "gpt", "شات جي بي تي"]}, {"label": "Siri", "pts": 750, "alts": ["سيري"]}, {"label": "Alexa", "pts": 750, "alts": ["اليكسا"]}, {"label": "Gemini", "pts": 750, "alts": ["google gemini", "جيميني"]}, {"label": "Claude", "pts": 850, "alts": ["كلود"]}, {"label": "Copilot", "pts": 850, "alts": ["microsoft copilot"]}, {"label": "DeepSeek", "pts": 850, "alts": ["deep seek"]}, {"label": "Grok", "pts": 850, "alts": []}, {"label": "Meta AI", "pts": 850, "alts": ["meta chatbot"]}, {"label": "Bixby", "pts": 850, "alts": []}, {"label": "Le Chat", "pts": 1000, "alts": ["mistral le chat"]}, {"label": "Perplexity", "pts": 1000, "alts": ["perplexity ai"]}, {"label": "Pi", "pts": 1000, "alts": ["inflection pi"]}, {"label": "Poe", "pts": 1000, "alts": []}, {"label": "Replika", "pts": 1000, "alts": []}, {"label": "Character AI", "pts": 1000, "alts": ["character.ai"]}]}, {"id": "companies", "cat": "AI companies", "q": "Name a company that develops AI.", "technical": false, "answers": [{"label": "OpenAI", "pts": 750, "alts": ["open ai"]}, {"label": "Google", "pts": 750, "alts": ["alphabet", "deepmind", "google deepmind"]}, {"label": "Microsoft", "pts": 750, "alts": ["microsoft research"]}, {"label": "Meta", "pts": 750, "alts": ["facebook", "meta ai"]}, {"label": "Apple", "pts": 750, "alts": []}, {"label": "Amazon", "pts": 850, "alts": ["aws"]}, {"label": "Nvidia", "pts": 850, "alts": []}, {"label": "Tesla", "pts": 850, "alts": []}, {"label": "Samsung", "pts": 850, "alts": []}, {"label": "Anthropic", "pts": 850, "alts": []}, {"label": "IBM", "pts": 850, "alts": []}, {"label": "Mistral AI", "pts": 1000, "alts": ["mistral"]}, {"label": "Cohere", "pts": 1000, "alts": []}, {"label": "Hugging Face", "pts": 1000, "alts": ["huggingface"]}, {"label": "DeepSeek", "pts": 1000, "alts": []}, {"label": "Baidu", "pts": 1000, "alts": []}, {"label": "Alibaba", "pts": 1000, "alts": []}, {"label": "Stability AI", "pts": 1000, "alts": ["stability"]}, {"label": "Runway", "pts": 1000, "alts": []}, {"label": "Replit", "pts": 850, "alts": ["repl it", "repl.it", "replit ai"]}, {"label": "xAI", "pts": 850, "alts": ["x", "x ai", "x.ai"]}]}, {"id": "characters", "cat": "Movies, series and games", "q": "Name an AI or robot character from a movie, series or game.", "technical": false, "answers": [{"label": "WALL-E", "pts": 750, "alts": ["wall e", "walle"]}, {"label": "Terminator", "pts": 750, "alts": ["the terminator", "t-800", "t800"]}, {"label": "R2-D2", "pts": 750, "alts": ["r2d2", "r2"]}, {"label": "Baymax", "pts": 750, "alts": []}, {"label": "Optimus Prime", "pts": 750, "alts": ["optimus"]}, {"label": "Bumblebee", "pts": 750, "alts": []}, {"label": "C-3PO", "pts": 850, "alts": ["c3po"]}, {"label": "Ultron", "pts": 850, "alts": []}, {"label": "Vision", "pts": 850, "alts": []}, {"label": "Iron Giant", "pts": 850, "alts": ["the iron giant"]}, {"label": "JARVIS", "pts": 850, "alts": ["j.a.r.v.i.s."]}, {"label": "Sonic robot Metal Sonic", "pts": 850, "alts": ["metal sonic"]}, {"label": "Connor", "pts": 1000, "alts": ["rk800", "detroit connor"]}, {"label": "Ava", "pts": 1000, "alts": ["ava from ex machina"]}, {"label": "GLaDOS", "pts": 1000, "alts": ["glados"]}, {"label": "HAL 9000", "pts": 1000, "alts": ["hal"]}, {"label": "EVE", "pts": 1000, "alts": ["eve from wall e"]}, {"label": "Chappie", "pts": 1000, "alts": []}, {"label": "TARS", "pts": 1000, "alts": []}, {"label": "BT-7274", "pts": 1000, "alts": ["bt7274", "bt from titanfall"]}, {"label": "Data", "pts": 1000, "alts": ["commander data"]}, {"label": "Marvin", "pts": 1000, "alts": ["marvin the paranoid android"]}, {"label": "Wheatley", "pts": 1000, "alts": []}, {"label": "AM", "pts": 1000, "alts": ["allied mastercomputer"]}, {"label": "Cortana", "pts": 1000, "alts": []}, {"label": "EDI", "pts": 1000, "alts": []}, {"label": "HK-47", "pts": 1000, "alts": ["hk47"]}]}, {"id": "image_tools", "cat": "Creative AI", "q": "Name an AI tool used to generate or edit images.", "technical": false, "answers": [{"label": "ChatGPT", "pts": 750, "alts": ["chat gpt"]}, {"label": "Gemini", "pts": 750, "alts": []}, {"label": "Photoshop", "pts": 750, "alts": ["adobe photoshop"]}, {"label": "Canva", "pts": 750, "alts": []}, {"label": "DALL-E", "pts": 850, "alts": ["dalle", "dall e"]}, {"label": "Midjourney", "pts": 850, "alts": []}, {"label": "Stable Diffusion", "pts": 850, "alts": []}, {"label": "Adobe Firefly", "pts": 850, "alts": ["firefly"]}, {"label": "Microsoft Designer", "pts": 850, "alts": ["bing image creator", "designer"]}, {"label": "Leonardo AI", "pts": 1000, "alts": ["leonardo"]}, {"label": "Ideogram", "pts": 1000, "alts": []}, {"label": "FLUX", "pts": 1000, "alts": ["flux ai"]}, {"label": "Runway", "pts": 1000, "alts": []}, {"label": "Adobe Lightroom", "pts": 1000, "alts": ["lightroom"]}, {"label": "Luminar Neo", "pts": 1000, "alts": ["luminar"]}, {"label": "Recraft", "pts": 1000, "alts": []}]}, {"id": "devices", "cat": "Everyday technology", "q": "Name a device that can use AI.", "technical": false, "answers": [{"label": "Smartphone", "pts": 750, "alts": ["phone", "mobile phone", "iphone"]}, {"label": "Computer", "pts": 750, "alts": ["pc", "laptop"]}, {"label": "Robot", "pts": 750, "alts": []}, {"label": "Smart speaker", "pts": 750, "alts": ["amazon echo", "google nest"]}, {"label": "Smartwatch", "pts": 850, "alts": ["smart watch"]}, {"label": "Car", "pts": 850, "alts": ["self driving car", "autonomous car"]}, {"label": "Drone", "pts": 850, "alts": []}, {"label": "Security camera", "pts": 850, "alts": ["smart camera"]}, {"label": "Smart TV", "pts": 850, "alts": ["television"]}, {"label": "Robot vacuum", "pts": 1000, "alts": ["robotic vacuum", "roomba"]}, {"label": "Hearing aid", "pts": 1000, "alts": []}, {"label": "Smart glasses", "pts": 1000, "alts": ["ar glasses"]}, {"label": "Smart thermostat", "pts": 1000, "alts": []}, {"label": "Smart refrigerator", "pts": 1000, "alts": ["smart fridge"]}, {"label": "Medical scanner", "pts": 1000, "alts": ["mri scanner"]}, {"label": "Industrial robot", "pts": 1000, "alts": ["robot arm"]}]}, {"id": "games", "cat": "Gaming", "q": "Name a video game where you can play against computer-controlled opponents.", "technical": false, "answers": [{"label": "FIFA", "pts": 750, "alts": ["ea fc", "ea sports fc", "fc 24", "fc 25", "fc 26"]}, {"label": "Minecraft", "pts": 750, "alts": []}, {"label": "Fortnite", "pts": 750, "alts": []}, {"label": "Call of Duty", "pts": 750, "alts": ["cod"]}, {"label": "PUBG", "pts": 750, "alts": ["pubg mobile"]}, {"label": "Chess", "pts": 750, "alts": ["computer chess"]}, {"label": "Rocket League", "pts": 850, "alts": []}, {"label": "Counter-Strike", "pts": 850, "alts": ["counter strike", "csgo", "cs2"]}, {"label": "Valorant", "pts": 850, "alts": []}, {"label": "Overwatch", "pts": 850, "alts": ["overwatch 2"]}, {"label": "GTA", "pts": 850, "alts": ["gta v", "grand theft auto"]}, {"label": "Mario Kart", "pts": 850, "alts": []}, {"label": "Tekken", "pts": 850, "alts": []}, {"label": "Mortal Kombat", "pts": 850, "alts": []}, {"label": "Civilization", "pts": 1000, "alts": ["sid meiers civilization", "civ"]}, {"label": "Age of Empires", "pts": 1000, "alts": ["aoe"]}, {"label": "StarCraft", "pts": 1000, "alts": ["starcraft 2"]}, {"label": "Alien Isolation", "pts": 1000, "alts": ["alien: isolation"]}, {"label": "F.E.A.R.", "pts": 1000, "alts": ["fear"]}, {"label": "XCOM", "pts": 1000, "alts": ["xcom 2"]}, {"label": "Total War", "pts": 1000, "alts": []}, {"label": "Halo", "pts": 1000, "alts": []}, {"label": "Dota 2", "pts": 1000, "alts": []}, {"label": "League of Legends", "pts": 1000, "alts": ["lol"]}, {"label": "Elden Ring", "pts": 1000, "alts": []}, {"label": "Dark Souls", "pts": 1000, "alts": []}, {"label": "Hades", "pts": 1000, "alts": []}]}, {"id": "robots", "cat": "Robots at work", "q": "Name a task a robot can perform.", "technical": false, "answers": [{"label": "Cleaning", "pts": 750, "alts": ["clean", "vacuuming", "vacuum"]}, {"label": "Cooking", "pts": 750, "alts": ["cook"]}, {"label": "Driving", "pts": 750, "alts": ["drive"]}, {"label": "Delivering packages", "pts": 750, "alts": ["delivery", "deliver"]}, {"label": "Walking", "pts": 750, "alts": ["walk"]}, {"label": "Dancing", "pts": 750, "alts": ["dance"]}, {"label": "Welding", "pts": 850, "alts": ["weld"]}, {"label": "Painting", "pts": 850, "alts": ["paint"]}, {"label": "Assembly", "pts": 850, "alts": ["assembling products", "manufacturing"]}, {"label": "Picking and packing", "pts": 850, "alts": ["packing", "sorting packages"]}, {"label": "Surgery", "pts": 850, "alts": ["surgical assistance", "assisting surgery"]}, {"label": "Agriculture", "pts": 850, "alts": ["farming", "harvesting"]}, {"label": "Bomb disposal", "pts": 1000, "alts": ["defusing bombs"]}, {"label": "Search and rescue", "pts": 1000, "alts": ["rescuing people"]}, {"label": "Space exploration", "pts": 1000, "alts": ["exploring mars"]}, {"label": "Underwater inspection", "pts": 1000, "alts": ["underwater exploration"]}, {"label": "Pipeline inspection", "pts": 1000, "alts": []}, {"label": "Prosthetic assistance", "pts": 1000, "alts": []}, {"label": "Microsurgery", "pts": 1000, "alts": []}, {"label": "Inspecting power lines", "pts": 1000, "alts": []}]}, {"id": "ethics", "cat": "Responsible AI", "q": "Name a concern or risk associated with AI.", "technical": false, "answers": [{"label": "Privacy", "pts": 750, "alts": ["data privacy"]}, {"label": "Job loss", "pts": 750, "alts": ["unemployment", "job displacement", "replacing jobs"]}, {"label": "Wrong answers", "pts": 750, "alts": ["incorrect answers", "misinformation", "hallucinations", "hallucination"]}, {"label": "Cheating", "pts": 750, "alts": ["academic cheating"]}, {"label": "Bias", "pts": 850, "alts": ["discrimination", "algorithmic bias"]}, {"label": "Deepfakes", "pts": 850, "alts": ["deepfake", "fake videos"]}, {"label": "Copyright", "pts": 850, "alts": ["plagiarism"]}, {"label": "Scams", "pts": 850, "alts": ["fraud"]}, {"label": "Overreliance", "pts": 850, "alts": ["dependency on ai"]}, {"label": "Security", "pts": 850, "alts": ["cybersecurity"]}, {"label": "Explainability", "pts": 1000, "alts": ["black box", "lack of explainability"]}, {"label": "Transparency", "pts": 1000, "alts": ["lack of transparency"]}, {"label": "Data poisoning", "pts": 1000, "alts": []}, {"label": "Accountability", "pts": 1000, "alts": []}, {"label": "Surveillance", "pts": 1000, "alts": ["mass surveillance"]}, {"label": "Environmental impact", "pts": 1000, "alts": ["energy consumption"]}, {"label": "Consent", "pts": 1000, "alts": ["lack of consent"]}, {"label": "Adversarial attacks", "pts": 1000, "alts": []}, {"label": "Weaponisation", "pts": 1000, "alts": ["autonomous weapons"]}]}, {"id": "plots", "cat": "Python visualisation", "q": "Name a type of plot you can create using Python.", "technical": true, "answers": [{"label": "Bar chart", "pts": 750, "alts": ["bar plot", "bar graph"]}, {"label": "Line chart", "pts": 750, "alts": ["line plot", "line graph"]}, {"label": "Pie chart", "pts": 750, "alts": ["pie plot"]}, {"label": "Scatter plot", "pts": 750, "alts": ["scatterplot", "scatter chart"]}, {"label": "Histogram", "pts": 750, "alts": ["hist"]}, {"label": "Box plot", "pts": 850, "alts": ["boxplot", "box and whisker plot"]}, {"label": "Heatmap", "pts": 850, "alts": ["heat map"]}, {"label": "Area chart", "pts": 850, "alts": ["area plot"]}, {"label": "Bubble chart", "pts": 850, "alts": ["bubble plot"]}, {"label": "Stacked bar chart", "pts": 850, "alts": ["stacked bar plot"]}, {"label": "Donut chart", "pts": 850, "alts": ["doughnut chart"]}, {"label": "Violin plot", "pts": 1000, "alts": ["violin"]}, {"label": "Density plot", "pts": 1000, "alts": ["density", "kde", "kde plot", "kernel density plot", "kernel density estimate"]}, {"label": "Contour plot", "pts": 1000, "alts": ["contour"]}, {"label": "Hexbin plot", "pts": 1000, "alts": ["hexbin"]}, {"label": "Raincloud plot", "pts": 1000, "alts": ["raincloud"]}, {"label": "Pair plot", "pts": 1000, "alts": ["pairplot"]}, {"label": "Swarm plot", "pts": 1000, "alts": ["swarmplot"]}, {"label": "Radar chart", "pts": 1000, "alts": ["radar plot", "spider chart"]}, {"label": "Treemap", "pts": 1000, "alts": ["tree map"]}, {"label": "Sankey diagram", "pts": 1000, "alts": ["sankey"]}, {"label": "3D surface plot", "pts": 1000, "alts": ["surface plot"]}, {"label": "ECDF", "pts": 1000, "alts": ["ecdf plot", "empirical cumulative distribution plot"]}, {"label": "Ridgeline plot", "pts": 1000, "alts": ["joyplot"]}]}, {"id": "languages", "cat": "Programming", "q": "Name a programming language used to develop AI.", "technical": true, "answers": [{"label": "Python", "pts": 750, "alts": ["py"]}, {"label": "Java", "pts": 750, "alts": []}, {"label": "JavaScript", "pts": 750, "alts": ["js"]}, {"label": "C++", "pts": 850, "alts": []}, {"label": "C#", "pts": 850, "alts": ["c sharp", "csharp"]}, {"label": "R", "pts": 850, "alts": []}, {"label": "C", "pts": 850, "alts": []}, {"label": "TypeScript", "pts": 850, "alts": ["ts"]}, {"label": "MATLAB", "pts": 850, "alts": []}, {"label": "Swift", "pts": 850, "alts": []}, {"label": "Rust", "pts": 850, "alts": []}, {"label": "Julia", "pts": 1000, "alts": []}, {"label": "Lisp", "pts": 1000, "alts": ["common lisp"]}, {"label": "Prolog", "pts": 1000, "alts": []}, {"label": "Haskell", "pts": 1000, "alts": []}, {"label": "Scala", "pts": 1000, "alts": []}, {"label": "Go", "pts": 1000, "alts": ["golang"]}, {"label": "Lua", "pts": 1000, "alts": []}, {"label": "Wolfram Language", "pts": 1000, "alts": ["mathematica"]}]}, {"id": "data", "cat": "Data", "q": "Name a form of data AI can work with.", "technical": true, "answers": [{"label": "Text", "pts": 750, "alts": ["words", "documents"]}, {"label": "Images", "pts": 750, "alts": ["image", "pictures", "photos"]}, {"label": "Audio", "pts": 750, "alts": ["sound", "speech"]}, {"label": "Video", "pts": 750, "alts": ["videos"]}, {"label": "Numbers", "pts": 750, "alts": ["numerical data", "numeric data", "numerical", "numeric"]}, {"label": "Time series", "pts": 850, "alts": ["timeseries"]}, {"label": "Location data", "pts": 850, "alts": ["gps", "coordinates", "geospatial data"]}, {"label": "Sensor readings", "pts": 850, "alts": ["sensor data", "temperature readings"]}, {"label": "Tabular data", "pts": 850, "alts": ["tables", "spreadsheets"]}, {"label": "Categorical data", "pts": 850, "alts": ["categories"]}, {"label": "Graphs", "pts": 1000, "alts": ["graph data", "network data"]}, {"label": "Point clouds", "pts": 1000, "alts": ["point cloud", "lidar"]}, {"label": "Brain signals", "pts": 1000, "alts": ["eeg"]}, {"label": "Genomic data", "pts": 1000, "alts": ["dna", "genetic sequences"]}, {"label": "Satellite radar data", "pts": 1000, "alts": ["sar"]}, {"label": "3D meshes", "pts": 1000, "alts": ["mesh data"]}, {"label": "Hyperspectral images", "pts": 1000, "alts": []}]}, {"id": "learning", "cat": "Machine learning", "q": "Name a type of machine learning.", "technical": true, "answers": [{"label": "Supervised learning", "pts": 750, "alts": ["supervised"]}, {"label": "Unsupervised learning", "pts": 750, "alts": ["unsupervised"]}, {"label": "Reinforcement learning", "pts": 850, "alts": ["reinforcement", "rl"]}, {"label": "Semi-supervised learning", "pts": 850, "alts": ["semi supervised", "semisupervised learning"]}, {"label": "Self-supervised learning", "pts": 1000, "alts": ["self supervised"]}, {"label": "Active learning", "pts": 1000, "alts": []}, {"label": "Online learning", "pts": 1000, "alts": []}, {"label": "Federated learning", "pts": 1000, "alts": []}, {"label": "Transfer learning", "pts": 1000, "alts": []}, {"label": "Multi-task learning", "pts": 1000, "alts": ["multitask learning"]}, {"label": "Few-shot learning", "pts": 1000, "alts": ["few shot learning"]}, {"label": "Zero-shot learning", "pts": 1000, "alts": ["zero shot learning"]}]}];
+const MAX_TOTAL=7000, LEADERBOARD_MAX=1000, PROMPT_SECONDS=25;
+// Scores go through our local server, which forwards to the GDG leaderboard.
+const $=id=>document.getElementById(id), fmtN=n=>n.toLocaleString('en-US');
+const norm=s=>s.normalize('NFKC').toLowerCase().replace(/[\u064B-\u065F\u0670]/g,'').replace(/[^\p{L}\p{N}+#]/gu,'');
+let round=[], qi=0, total=0, over=true, checking=false, reviewing=false, deadline=0, remaining=25000, timer=null;
+let playerName='', runId=0, promptToken=0, lastRaw='', saveKey=null, saved=false, saving=false, aiReady=false, hostAwards=0;
+const learned=new Map();
+const playedNames=new Set();
+try{JSON.parse(localStorage.getItem('ai-deep-dive-played-v1')||'[]').forEach(n=>playedNames.add(n));}catch(e){}
+function shuffled(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function selectRound(){return shuffled([...shuffled(QUESTIONS.filter(q=>!q.technical)).slice(0,5),...shuffled(QUESTIONS.filter(q=>q.technical)).slice(0,2)]);}
+function show(id){['startScreen','gameScreen','endScreen'].forEach(x=>$(x).classList.toggle('hidden',x!==id));}
+function feedback(id,text,cls=''){$(id).textContent=text;$(id).className='feedback '+cls;}
+function setFeedback(text,cls=''){feedback('feedback',text,cls);}
+function leaderboardPoints(){return Math.max(0,Math.min(1000,Math.round(total/MAX_TOTAL*1000)));}
+function updateTop(){
+ $('depth').textContent=fmtN(total);const t=total/MAX_TOTAL;
+ $('depthFill').style.width=t*100+'%';$('diver').style.setProperty('--p',t);
+ $('maxDepth').textContent='Deepest possible: 7,000 m';
+ const mix=(a,b)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');
+ document.body.style.background=`linear-gradient(rgb(${mix([40,170,210],[2,5,18])}),rgb(${mix([12,60,120],[0,0,6])}))`;
+}
+function updateTimer(){
+ const left=Math.ceil(Math.max(0,remaining)/1000);
+ $('timerText').textContent=checking?'Judging…':reviewing?'Paused':left+'s';
+ $('timerFill').style.width=Math.max(0,remaining)/25000*100+'%';
+ $('timerFill').classList.toggle('low',left<=5);
+}
+function pauseTimer(){remaining=Math.max(0,deadline-performance.now());clearInterval(timer);timer=null;updateTimer();}
+function resumeTimer(){
+ deadline=performance.now()+remaining;clearInterval(timer);updateTimer();
+ timer=setInterval(()=>{remaining=Math.max(0,deadline-performance.now());updateTimer();if(remaining<=0)endPrompt(false);},100);
+}
+function matchKnown(raw,P){
+ const key=norm(raw);if(!key)return null;
+ const approved=learned.get(P.id+'|'+key);if(approved)return approved;
+ const exact=P.answers.filter(a=>[a.label,...a.alts].some(t=>norm(t)===key));
+ return exact.length===1?exact[0]:null;
+}
+function startGame(){
+ if(saving)return;
+ const name=$('nameInput').value.trim().replace(/\s+/g,' ');
+ if(name.length<2||name.length>48){feedback('startFeedback','Your name must be 2 to 48 characters.','bad');return;}
+ const entrant=name.normalize('NFKC').toLowerCase();
+ if(playedNames.has(entrant)){feedback('startFeedback','This name has already played. One attempt per person; ask the host if this is a different person with the same name.','bad');return;}
+ playedNames.add(entrant);try{localStorage.setItem('ai-deep-dive-played-v1',JSON.stringify([...playedNames]));}catch(e){}
+ feedback('startFeedback','');playerName=name;runId++;promptToken++;clearInterval(timer);
+ round=selectRound();qi=0;total=0;hostAwards=0;saved=false;saveKey=null;
+ $('saveBtn').disabled=false;feedback('saveFeedback','');show('gameScreen');showPrompt();
+}
+function showPrompt(){
+ const P=round[qi];promptToken++;over=false;checking=false;reviewing=false;lastRaw='';remaining=25000;
+ $('promptNum').textContent=`Prompt ${qi+1} of 7`;$('catName').textContent=P.cat;$('promptText').textContent=P.q;
+ $('guessInput').value='';$('guessInput').disabled=false;$('submitBtn').disabled=false;
+ ['nextBtn','reviewBtn','reviewPanel'].forEach(x=>$(x).classList.add('hidden'));
+ setFeedback('');updateTop();resumeTimer();$('guessInput').focus();
+}
+async function submitGuess(){
+ if(over||checking||reviewing)return;
+ const raw=$('guessInput').value.trim();if(!raw)return;
+ if(performance.now()>=deadline){endPrompt(false);return;}
+ const P=round[qi];lastRaw=raw;const found=matchKnown(raw,P);
+ if(found){award(found.pts,found.label,false);return;}
+ pauseTimer();checking=true;updateTimer();$('guessInput').disabled=true;$('submitBtn').disabled=true;
+ $('reviewBtn').classList.add('hidden');setFeedback('AI judge is checking your answer. Timer paused.','info');
+ const token=promptToken;
+ try{
+  if(!aiReady)await checkJudge();
+  if(!aiReady)throw new Error('AI judge is unavailable. Ask the host to review this answer.');
+  const response=await fetch('/judge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({questionId:P.id,answer:raw}),signal:AbortSignal.timeout(95000)});
+  const result=await response.json();if(!response.ok)throw new Error(result.reason||'AI judge unavailable.');
+  if(over||token!==promptToken)return;
+  if(result.judgeVerified)$('status').textContent='Local AI judge ready';
+  else if(result.review)$('status').textContent='Local judge needs attention';
+  checking=false;
+  if(result.valid===true&&[750,850,1000].includes(result.points)&&result.review!==true){
+   const answer={label:result.label||raw,pts:result.points};learned.set(P.id+'|'+norm(raw),answer);award(answer.pts,answer.label,false);return;
+  }
+  if(result.review===true||result.valid!==false){openReview(raw,(result.reason||'Please ask the host to review.')+(result.suggestedPoints?` Suggested score: ${result.suggestedPoints} m for “${result.suggestedLabel||raw}”.`:''));return;}
+  setFeedback((result.reason||'That does not answer this question.')+' Try again, or ask the host to review.','bad');
+  $('guessInput').disabled=false;$('submitBtn').disabled=false;$('reviewBtn').classList.remove('hidden');resumeTimer();$('guessInput').select();
+ }catch(e){
+  if(over||token!==promptToken)return;
+  checking=false;openReview(raw,e.name==='TimeoutError'?'The judge took too long. Host review is available.':e.message);
+ }
+}
+function openReview(raw,reason='Host review requested.'){
+ if(over)return;
+ if(!reviewing&&!checking&&timer)pauseTimer();
+ checking=false;reviewing=true;lastRaw=raw;clearInterval(timer);updateTimer();
+ $('guessInput').disabled=true;$('submitBtn').disabled=true;$('reviewBtn').classList.add('hidden');
+ $('reviewQuestion').textContent=round[qi].q;$('reviewAnswer').textContent=raw;
+ const examples=round[qi].answers;
+ $('reviewExamples').textContent=[750,850,1000].map(pts=>`${pts} m examples: ${examples.filter(a=>a.pts===pts).slice(0,5).map(a=>a.label).join(', ')}`).join(' • ');
+ $('reviewPanel').classList.remove('hidden');setFeedback(reason+' Timer paused.','info');
+}
+function rejectReview(){
+ if(!reviewing||over)return;reviewing=false;$('reviewPanel').classList.add('hidden');
+ $('guessInput').disabled=false;$('submitBtn').disabled=false;
+ setFeedback('Host returned the question. Try another answer.','info');resumeTimer();$('guessInput').focus();
+}
+function askHostPin(){
+ return new Promise(resolve=>{
+  const dialog=$('hostPinDialog'),input=$('hostPinInput');input.value='';dialog.returnValue='';
+  dialog.addEventListener('close',()=>{const pin=dialog.returnValue==='confirm'?input.value:null;input.value='';resolve(pin);},{once:true});
+  dialog.showModal();input.focus();
+ });
+}
+async function confirmHostAward(points){
+ if(!reviewing||over||checking)return;
+ checking=true;const token=promptToken;
+ try{
+  const pin=await askHostPin();
+  if(pin===null||over||token!==promptToken)return;
+  const response=await fetch('/host-award',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({questionId:round[qi].id,answer:lastRaw,points,pin:pin.trim()}),signal:AbortSignal.timeout(5000)});
+  const result=await response.json();
+  if(over||token!==promptToken)return;
+  if(!response.ok||result.confirmed!==true||result.points!==points)throw new Error(result.error||'Host decision could not be verified. No points awarded.');
+  if(points===0){endPrompt(false);setFeedback('Incorrect answer. 0 m awarded.','bad');return;}
+  award(points,lastRaw,true);
+ }catch(e){if(token===promptToken&&!over)setFeedback(e.message,'bad');}
+ finally{if(token===promptToken)checking=false;}
+}
+function award(points,label,host){
+ if(over||![750,850,1000].includes(points))return;
+ if(host){hostAwards++;learned.set(round[qi].id+'|'+norm(lastRaw),{label:lastRaw,pts:points});}
+ total+=points;setFeedback(`Correct! ${fmtN(points)} m deeper — ${label}.`,'good');burstBubbles();endPrompt(true);
+}
+function burstBubbles(){for(let k=0;k<8;k++){const b=document.createElement('span');b.className='dbub';b.style.top=($('diver').offsetTop+10)+'px';b.style.setProperty('--dx',(Math.random()*36-18)+'px');b.style.animationDelay=k*.08+'s';$('shaft').appendChild(b);setTimeout(()=>b.remove(),2600);}}
+function endPrompt(success){
+ if(over)return;over=true;checking=false;reviewing=false;clearInterval(timer);
+ $('guessInput').disabled=true;$('submitBtn').disabled=true;$('reviewPanel').classList.add('hidden');$('reviewBtn').classList.add('hidden');
+ if(!success)setFeedback("Time's up! Nothing scored for this prompt.",'info');
+ updateTop();$('nextBtn').textContent=qi===6?'See your depth →':'Next prompt →';$('nextBtn').classList.remove('hidden');
+}
+function nextPrompt(){if(!over)return;if(qi<6){qi++;showPrompt();}else finish();}
+function finish(){
+ clearInterval(timer);show('endScreen');$('endDepth').textContent=fmtN(total)+' m';
+ $('endPts').textContent=`You dove ${fmtN(total)} m out of 7,000 m. Leaderboard score: ${leaderboardPoints()} / 1,000.`;
+ $('endMsg').textContent=total===7000?'Maximum depth! Seven rare answers.':total>=5000?'Excellent dive! You reached the deep ocean.':total>=3500?'Great dive! You found your way into the deep.':'Thanks for diving! Try another round of questions.';
+ $('endName').textContent=`Your score will be added to the leaderboard as ${playerName}.`;
+ $('reviewNotice').textContent=hostAwards?`${hostAwards} answer(s) awarded by the host.`:'';
+}
+function returnHomeAfterSubmission(name,points){
+ clearInterval(timer);promptToken++;runId++;over=true;checking=false;reviewing=false;
+ round=[];qi=0;total=0;hostAwards=0;lastRaw='';playerName='';saveKey=null;
+ $('nameInput').value='';$('guessInput').value='';$('reviewPanel').classList.add('hidden');
+ updateTop();show('startScreen');
+ feedback('startFeedback',`Saved ${name}’s score: ${points} / 1,000. Next player: enter your name.`,'good');
+ $('nameInput').focus();
+}
+async function submitScore(){
+ if(saved||saving)return;
+ if(location.protocol==='file:'){feedback('saveFeedback','Launch the game using python start_ai_game.py, then play in the localhost browser window.','bad');return;}
+ saving=true;$('saveBtn').disabled=true;
+ const points=leaderboardPoints(),teamName=playerName,token=runId;
+ saveKey=saveKey||(crypto.randomUUID?crypto.randomUUID():`ai-${Date.now()}-${Math.random()}`);
+ feedback('saveFeedback','Sending score…','info');
+ try{
+  let lastError;
+  for(let attempt=0;attempt<3;attempt++){
+   try{
+    const res=await fetch('/scores',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':saveKey},body:JSON.stringify({teamName,points}),signal:AbortSignal.timeout(16000)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||data.saved!==true){
+     const error=new Error(data.error||`Could not confirm the score (${res.status}).`);
+     if(res.status<500||res.ok)error.final=true;
+     throw error;
+    }
+    if(token!==runId)return;
+    saved=true;returnHomeAfterSubmission(teamName,points);return;
+   }catch(e){lastError=e;if(e.final)break;}
+  }
+  throw lastError||new Error('Could not save score.');
+ }catch(e){feedback('saveFeedback',e.message+' Your score is still here. Retry uses the same submission key.','bad');}
+ finally{saving=false;$('saveBtn').disabled=saved;}
+}
+async function checkJudge(){
+ let d={};
+ if(location.protocol==='file:'){$('status').textContent='Offline bank + host review';return;}
+ try{const r=await fetch('/health',{signal:AbortSignal.timeout(3000)});d=await r.json();aiReady=r.ok&&d.aiReady===true;}catch(e){aiReady=false;}
+ $('status').textContent=aiReady?(d.judgeVerified?'Local AI judge ready':'Local model found · judge untested'):'Local judge unavailable · host review';
+}
+$('startBtn').onclick=startGame;$('submitBtn').onclick=submitGuess;$('nextBtn').onclick=nextPrompt;$('saveBtn').onclick=submitScore;
+$('reviewBtn').onclick=()=>openReview(lastRaw);$('rejectBtn').onclick=rejectReview;
+document.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>confirmHostAward(Number(b.dataset.award)));
+$('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+$('guessInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitGuess();});
+updateTop();checkJudge();
+</script>
+</body>
+</html>
